@@ -608,6 +608,18 @@ class ssh(object):
                         _block = False
         return _output
 
+    def read_icx(self, command, **kwargs):
+            self.client_conn.send("\n")
+            self._hostname = self.blocking_recv('#')
+            self._hostname = self._hostname.translate(None, '\r\n')
+
+            # Let's figure out what our new prompt looks like
+            self.client_conn.send("%s\r\n" % "enable")
+            self._config_hostname = self.blocking_recv("#")
+            self.client_conn.send("skip-page-display")
+            self.client_conn.send("\n")
+            return self.read(command, **kwargs)
+
     def read(self, command, **kwargs):
             _args = kwargs
             _returnlist = []
