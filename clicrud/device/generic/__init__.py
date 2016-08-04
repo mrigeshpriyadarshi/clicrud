@@ -39,6 +39,10 @@ class generic(object):
         if self._transport.connected:
             return True
 
+    def read_icx(self, command, **kwargs):
+        _args = kwargs
+        return self._transport.read_icx(command, **_args)
+
     def read(self, command, **kwargs):
         _args = kwargs
         return self._transport.read(command, **_args)
